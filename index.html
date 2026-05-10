@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,
+initial-scale=1,
+maximum-scale=1,
+minimum-scale=1,
+user-scalable=no,
+viewport-fit=cover">
+
+<meta name="theme-color" content="#16a34a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>Yadav Data Management</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<style>
+
+html{
+width:100%;
+min-height:100%;
+overflow-x:hidden;
+background:#eef1f5;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+padding:18px;
+background:#eef1f5;
+overflow-x:hidden;
+color:#111827;
+}
+
+/* HEADER */
+
+header{
+background:linear-gradient(135deg,#16a34a,#059669);
+padding:42px 24px;
+border-radius:36px;
+color:white;
+text-align:center;
+margin-bottom:24px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+header h1{
+font-size:50px;
+font-weight:300;
+line-height:1.15;
+margin-bottom:18px;
+}
+
+header p{
+font-size:22px;
+opacity:0.95;
+padding-top:18px;
+border-top:1px solid rgba(255,255,255,0.4);
+}
+
+/* DC BOX */
+
+.dc-container{
+display:grid;
+grid-template-columns:1fr;
+gap:24px;
+margin-bottom:24px;
+}
+
+.dc-box{
+background:white;
+padding:42px 30px;
+border-radius:34px;
+box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+.dc-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.dc-title{
+font-size:30px;
+font-weight:600;
+}
+
+.dc-sub{
+font-size:18px;
+opacity:0.7;
+}
+
+/* CARD */
+
+.card-box{
+background:white;
+padding:34px;
+border-radius:34px;
+box-shadow:0 8px 24px rgba(0,0,0,0.08);
+margin-bottom:24px;
+}
+
+/* TITLE */
+
+.card-box h2{
+font-size:28px;
+margin-bottom:24px;
+}
+
+/* LABEL */
+
+label{
+font-size:20px;
+display:block;
+margin-bottom:12px;
+}
+
+/* INPUT */
+
+input,
+select{
+width:100%;
+padding:22px;
+border-radius:22px;
+border:1px solid #d1d5db;
+font-size:20px;
+margin-bottom:22px;
+background:white;
+outline:none;
+}
+
+/* BUTTON */
+
+.btn{
+width:100%;
+padding:22px;
+border:none;
+border-radius:24px;
+font-size:22px;
+font-weight:700;
+color:white;
+margin-top:10px;
+text-decoration:none;
+display:block;
+text-align:center;
+cursor:pointer;
+}
+
+.btn:active{
+transform:scale(0.98);
+}
+
+/* COLORS */
+
+.success{
+background:#16a34a;
+}
+
+.danger{
+background:#dc2626;
+}
+
+.primary{
+background:#2563eb;
+}
+
+.warning{
+background:#f59e0b;
+}
+
+.dark{
+background:#111827;
+}
+
+/* STATS */
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-bottom:24px;
+}
+
+.stat-box{
+background:white;
+padding:28px;
+border-radius:28px;
+text-align:center;
+font-size:20px;
+font-weight:700;
+box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* CUSTOMER */
+
+.customer-card{
+background:white;
+padding:30px;
+border-radius:32px;
+margin-bottom:24px;
+box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+.customer-card h3{
+font-size:30px;
+margin-bottom:18px;
+}
+
+.info{
+font-size:20px;
+margin-bottom:12px;
+word-break:break-word;
+}
+
+.buttons{
+display:grid;
+grid-template-columns:1fr;
+gap:18px;
+margin-top:24px;
+}
+
+/* NOTE */
+
+.note-box{
+background:#fef9c3;
+padding:24px;
+border-radius:24px;
+margin-top:24px;
+font-size:18px;
+line-height:1.8;
+}
+
+/* LOGIN */
+
+#loginPage{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#e2e8f0;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:18px;
+z-index:999;
+}
+
+.login-card{
+background:white;
+padding:40px;
+border-radius:34px;
+width:100%;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+.login-card h2{
+text-align:center;
+margin-bottom:24px;
+font-size:34px;
+}
+
+.hidden{
+display:none;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginPage">
+
+<div class="login-card">
+
+<h2>🔐 Secure Login</h2>
+
+<input
+type="text"
+id="username"
+placeholder="Username">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<button
+onclick="login()"
+class="btn primary">
+
+Login
+
+</button>
+
+<p id="loginError"
+style="
+color:red;
+margin-top:18px;
+text-align:center;
+font-size:18px;
+"></p>
+
+</div>
+
+</div>
+
+<!-- HEADER -->
+
+<header>
+
+<h1>
+☀️ Dhakad Agro<br>
+Solar Solution
+</h1>
+
+<p>
+Solar Lead Management System
+</p>
+
+</header>
+
+<!-- HOME -->
+
+<div id="homePage">
+
+<div class="dc-container">
+
+<!-- DHAMNAR -->
+
+<div class="dc-box"
+onclick="openDC('dhamna')">
+
+<div class="dc-top">
+
+<div
+id="dhamnaTitle"
+class="dc-title">
+
+🏡 DHAMNAR DC
+
+</div>
+
+<button
+onclick="
+event.stopPropagation();
+editDCName('dhamnaTitle');
+"
+style="
+background:#f59e0b;
+color:white;
+border:none;
+padding:16px 24px;
+border-radius:18px;
+font-size:18px;
+font-weight:700;
+">
+
+✏️ Edit
+
+</button>
+
+</div>
+
+<div class="dc-sub">
+Tap to Open Customer Data
+</div>
+
+</div>
+
+<!-- AFJALPUR -->
+
+<div class="dc-box"
+onclick="openDC('afjalpur')">
+
+<div class="dc-top">
+
+<div
+id="afjalpurTitle"
+class="dc-title">
+
+🏘️ AFJALPUR DC
+
+</div>
+
+<button
+onclick="
+event.stopPropagation();
+editDCName('afjalpurTitle');
+"
+style="
+background:#f59e0b;
+color:white;
+border:none;
+padding:16px 24px;
+border-radius:18px;
+font-size:18px;
+font-weight:700;
+">
+
+✏️ Edit
+
+</button>
+
+</div>
+
+<div class="dc-sub">
+Tap to Open Customer Data
+</div>
+
+</div>
+
+</div>
+
+<!-- UPLOAD -->
+
+<div class="card-box">
+
+<h2>
+📂 Upload Excel Data
+</h2>
+
+<label>Dhamnar DC File</label>
+
+<input
+type="file"
+id="dhamnaFile"
+accept=".xlsx,.xls">
+
+<label>Afjalpur DC File</label>
+
+<input
+type="file"
+id="afjalpurFile"
+accept=".xlsx,.xls">
+
+<button
+class="btn success"
+onclick="loadFiles()">
+
+🚀 Load Customer Data
+
+</button>
+
+<button
+class="btn danger"
+onclick="clearAllData()">
+
+🗑 Clear All Data
+
+</button>
+
+</div>
+
+</div>
+
+<!-- DC PAGE -->
+
+<div id="dcPage"
+class="hidden">
+
+<a
+onclick="goHome()"
+class="btn dark">
+
+⬅ Back
+
+</a>
+
+<br><br>
+
+<input
+type="text"
+id="searchBox"
+placeholder="🔍 Search Customer"
+onkeyup="renderCustomers()">
+
+<div class="stats">
+
+<div class="stat-box"
+onclick="changeFilter('All')">
+
+👥 Total
+
+<br><br>
+
+<span id="totalCount">0</span>
+
+</div>
+
+<div class="stat-box"
+onclick="changeFilter('Interested')"
+style="background:#dcfce7;">
+
+✅ Interested
+
+<br><br>
+
+<span id="interestedCount">0</span>
+
+</div>
+
+<div class="stat-box"
+onclick="changeFilter('Thinking')"
+style="background:#fef3c7;">
+
+🤔 Soch Kar Batayenge
+
+<br><br>
+
+<span id="thinkingCount">0</span>
+
+</div>
+
+</div>
+
+<button
+class="btn warning"
+onclick="downloadFilteredData()">
+
+📥 Download Current Data
+
+</button>
+
+<br><br>
+
+<div id="customerList"></div>
+
+</div>
+
+<script>
+
+let db;
+
+const request =
+indexedDB.open(
+"YadavSolarCRM",
+1
+);
+
+request.onupgradeneeded =
+function(event){
+
+db =
+event.target.result;
+
+db.createObjectStore(
+"dhamnaData",
+{
+keyPath:"id",
+autoIncrement:true
+}
+);
+
+db.createObjectStore(
+"afjalpurData",
+{
+keyPath:"id",
+autoIncrement:true
+}
+);
+
+};
+
+request.onsuccess =
+function(event){
+
+db =
+event.target.result;
+
+loadSavedData();
+loadDCNames();
+
+};
+
+let dhamnaData=[];
+let afjalpurData=[];
+let currentDC='';
+let currentFilter='All';
+
+/* LOGIN */
+
+function login(){
+
+const user =
+document.getElementById(
+'username'
+).value;
+
+const pass =
+document.getElementById(
+'password'
+).value;
+
+if(
+user==='574944771302' &&
+pass==='9754353316'
+){
+
+document.getElementById(
+'loginPage'
+).style.display='none';
+
+}else{
+
+document.getElementById(
+'loginError'
+).innerText =
+'❌ Wrong Username or Password';
+
+}
+
+}
+
+/* DC NAME */
+
+function editDCName(id){
+
+const currentName =
+document.getElementById(id)
+.innerText;
+
+const newName =
+prompt(
+'Enter New DC Name',
+currentName
+);
+
+if(newName){
+
+document.getElementById(id)
+.innerText = newName;
+
+localStorage.setItem(
+id,
+newName
+);
+
+}
+
+}
+
+function loadDCNames(){
+
+const dhamnaSaved =
+localStorage.getItem(
+'dhamnaTitle'
+);
+
+const afjalpurSaved =
+localStorage.getItem(
+'afjalpurTitle'
+);
+
+if(dhamnaSaved){
+
+document.getElementById(
+'dhamnaTitle'
+).innerText =
+dhamnaSaved;
+
+}
+
+if(afjalpurSaved){
+
+document.getElementById(
+'afjalpurTitle'
+).innerText =
+afjalpurSaved;
+
+}
+
+}
+
+/* DATABASE */
+
+function saveToDB(
+storeName,
+data
+){
+
+const tx =
+db.transaction(
+storeName,
+"readwrite"
+);
+
+const store =
+tx.objectStore(
+storeName
+);
+
+store.clear();
+
+data.forEach(item=>{
+store.add(item);
+});
+
+}
+
+function loadFromDB(
+storeName,
+callback
+){
+
+const tx =
+db.transaction(
+storeName,
+"readonly"
+);
+
+const store =
+tx.objectStore(
+storeName
+);
+
+const request =
+store.getAll();
+
+request.onsuccess =
+function(){
+
+callback(
+request.result
+);
+
+};
+
+}
+
+function loadSavedData(){
+
+loadFromDB(
+"dhamnaData",
+function(data){
+dhamnaData=data;
+}
+);
+
+loadFromDB(
+"afjalpurData",
+function(data){
+afjalpurData=data;
+}
+);
+
+}
+
+/* FILE */
+
+function loadFiles(){
+
+const dhamnaFile =
+document.getElementById(
+'dhamnaFile'
+).files[0];
+
+const afjalpurFile =
+document.getElementById(
+'afjalpurFile'
+).files[0];
+
+if(dhamnaFile){
+readExcel(
+dhamnaFile,
+'dhamna'
+);
+}
+
+if(afjalpurFile){
+readExcel(
+afjalpurFile,
+'afjalpur'
+);
+}
+
+setTimeout(()=>{
+
+alert(
+'✅ Data Loaded Successfully'
+);
+
+},1000);
+
+}
+
+function readExcel(
+file,
+type
+){
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(e){
+
+const data =
+new Uint8Array(
+e.target.result
+);
+
+const workbook =
+XLSX.read(
+data,
+{
+type:'array'
+}
+);
+
+const sheetName =
+workbook.SheetNames[0];
+
+const worksheet =
+workbook.Sheets[sheetName];
+
+const json =
+XLSX.utils.sheet_to_json(
+worksheet
+);
+
+if(type==='dhamna'){
+
+dhamnaData=json;
+
+saveToDB(
+"dhamnaData",
+json
+);
+
+}else{
+
+afjalpurData=json;
+
+saveToDB(
+"afjalpurData",
+json
+);
+
+}
+
+};
+
+reader.readAsArrayBuffer(file);
+
+}
+
+/* OPEN */
+
+function openDC(dc){
+
+currentDC=dc;
+
+document.getElementById(
+'homePage'
+).classList.add(
+'hidden'
+);
+
+document.getElementById(
+'dcPage'
+).classList.remove(
+'hidden'
+);
+
+currentFilter='All';
+
+renderCustomers();
+
+}
+
+function goHome(){
+
+document.getElementById(
+'homePage'
+).classList.remove(
+'hidden'
+);
+
+document.getElementById(
+'dcPage'
+).classList.add(
+'hidden'
+);
+
+}
+
+/* STATUS */
+
+function saveStatus(
+id,
+status
+){
+
+localStorage.setItem(
+id,
+status
+);
+
+}
+
+function getStatus(id){
+
+return localStorage.getItem(id)
+|| '';
+
+}
+
+function changeFilter(filter){
+
+currentFilter=filter;
+
+renderCustomers();
+
+}
+
+/* INTERESTED */
+
+function markInterested(
+id,
+mobile,
+name
+){
+
+saveStatus(
+id,
+'Interested'
+);
+
+const text =
+`नमस्कार ${name} जी,
+
+आपको Dhakad Agro Solar Solution से जुड़ने के लिए धन्यवाद ☀️
+
+कृपया निम्न दस्तावेज तैयार रखें:
+
+• आधार कार्ड
+• पैन कार्ड
+• बैंक पासबुक
+• SBI बैंक खाता
+
+आपका रजिस्ट्रेशन शीघ्र पूर्ण किया जाएगा।
+
+धन्यवाद 🙏`;
+
+window.open(
+`https://wa.me/91${mobile}?text=${encodeURIComponent(text)}`,
+'_blank'
+);
+
+renderCustomers();
+
+}
+
+/* THINKING */
+
+function markThinking(id){
+
+saveStatus(
+id,
+'Thinking'
+);
+
+renderCustomers();
+
+}
+
+/* REJECT */
+
+function rejectCustomer(
+consumer,
+mobile,
+name
+){
+
+const text =
+`नमस्कार ${name} जी,
+
+आपका कीमती समय देने के लिए धन्यवाद 🙏
+
+भविष्य में यदि आपको सोलर सिस्टम या सरकारी सब्सिडी संबंधी सहायता की आवश्यकता हो तो कृपया Dhakad Agro Solar Solution से संपर्क अवश्य करें।
+
+धन्यवाद एवं आभार ☀️`;
+
+window.open(
+`https://wa.me/91${mobile}?text=${encodeURIComponent(text)}`,
+'_blank'
+);
+
+setTimeout(()=>{
+
+if(currentDC==='dhamna'){
+
+dhamnaData =
+dhamnaData.filter(customer=>{
+
+return (
+(customer['Consumer No']
+||
+customer['Consumer Number'])
+!= consumer
+);
+
+});
+
+saveToDB(
+"dhamnaData",
+dhamnaData
+);
+
+}else{
+
+afjalpurData =
+afjalpurData.filter(customer=>{
+
+return (
+(customer['Consumer No']
+||
+customer['Consumer Number'])
+!= consumer
+);
+
+});
+
+saveToDB(
+"afjalpurData",
+afjalpurData
+);
+
+}
+
+localStorage.removeItem(
+currentDC+'_'+consumer
+);
+
+localStorage.removeItem(
+'company_'+consumer
+);
+
+renderCustomers();
+
+},1000);
+
+}
+
+/* RENDER */
+
+function renderCustomers(){
+
+const list =
+document.getElementById(
+'customerList'
+);
+
+list.innerHTML='';
+
+let data =
+currentDC==='dhamna'
+? dhamnaData
+: afjalpurData;
+
+const search =
+document.getElementById(
+'searchBox'
+).value.toLowerCase();
+
+let interested=0;
+let thinking=0;
+
+data.forEach(customer=>{
+
+const consumer =
+customer['Consumer No']
+||
+customer['Consumer Number']
+||
+'';
+
+const id =
+currentDC+'_'+consumer;
+
+const status =
+getStatus(id);
+
+if(status==='Interested'){
+interested++;
+}
+
+if(status==='Thinking'){
+thinking++;
+}
+
+});
+
+document.getElementById(
+'totalCount'
+).innerText =
+data.length;
+
+document.getElementById(
+'interestedCount'
+).innerText =
+interested;
+
+document.getElementById(
+'thinkingCount'
+).innerText =
+thinking;
+
+const filtered =
+data.filter(customer=>{
+
+const name =
+(customer['Consumer Name Hindi']
+||
+customer['Consumer Name']
+||
+'').toLowerCase();
+
+const village =
+(customer['Village']
+||
+customer['village']
+||
+'').toLowerCase();
+
+const mobile =
+String(
+customer['Mobile No']
+||
+customer['Mobile Number']
+||
+''
+);
+
+const consumer =
+customer['Consumer No']
+||
+customer['Consumer Number']
+||
+'';
+
+const id =
+currentDC+'_'+consumer;
+
+const status =
+getStatus(id);
+
+if(
+currentFilter !== 'All'
+&&
+status !== currentFilter
+){
+return false;
+}
+
+return(
+
+name.includes(search)
+||
+village.includes(search)
+||
+mobile.includes(search)
+
+);
+
+});
+
+filtered.forEach(customer=>{
+
+const name =
+customer['Consumer Name Hindi']
+||
+customer['Consumer Name']
+||
+'No Name';
+
+const village =
+customer['Village']
+||
+customer['village']
+||
+'';
+
+const mobile =
+customer['Mobile No']
+||
+customer['Mobile Number']
+||
+'';
+
+const consumer =
+customer['Consumer No']
+||
+customer['Consumer Number']
+||
+'';
+
+const id =
+currentDC+'_'+consumer;
+
+const savedCompany =
+localStorage.getItem(
+'company_'+consumer
+)
+|| '';
+
+list.innerHTML += `
+
+<div class="customer-card">
+
+<h3>
+👤 ${name}
+</h3>
+
+<div class="info">
+🏡 Village: ${village}
+</div>
+
+<div class="info">
+📱 Mobile: ${mobile}
+</div>
+
+<div class="info">
+🔢 Consumer No: ${consumer}
+</div>
+
+<div style="margin-top:20px;">
+
+<label style="
+font-weight:600;
+font-size:18px;
+display:block;
+margin-bottom:10px;
+">
+
+☀️ Preferred Solar Company
+
+</label>
+
+<select
+id="company_${consumer}"
+onchange="
+localStorage.setItem(
+'company_${consumer}',
+this.value
+)
+">
+
+<option value="">
+Select Company
+</option>
+
+<option value="Tata Power Solar"
+${savedCompany==='Tata Power Solar'
+?'selected':''}>
+
+Tata Power Solar
+
+</option>
+
+<option value="Adani Solar"
+${savedCompany==='Adani Solar'
+?'selected':''}>
+
+Adani Solar
+
+</option>
+
+<option value="Havells Solar"
+${savedCompany==='Havells Solar'
+?'selected':''}>
+
+Havells Solar
+
+</option>
+
+<option value="Waaree Solar"
+${savedCompany==='Waaree Solar'
+?'selected':''}>
+
+Waaree Solar
+
+</option>
+
+</select>
+
+</div>
+
+<div class="buttons">
+
+<a
+href="tel:${mobile}"
+class="btn success">
+
+📞 Call
+
+</a>
+
+<button
+class="btn primary"
+onclick="markInterested(
+'${id}',
+'${mobile}',
+'${name}'
+)">
+
+✅ Interested
+
+</button>
+
+<button
+class="btn warning"
+onclick="markThinking(
+'${id}'
+)">
+
+🤔 Soch Kar Batayenge
+
+</button>
+
+<button
+class="btn danger"
+onclick="rejectCustomer(
+'${consumer}',
+'${mobile}',
+'${name}'
+)">
+
+❌ Reject
+
+</button>
+
+</div>
+
+<div class="note-box">
+
+<b>
+📄 Required Documents:
+</b>
+
+<br><br>
+
+• Aadhaar Card<br>
+• PAN Card<br>
+• Bank Passbook<br>
+• SBI Bank Account
+
+<br><br>
+
+⚠️ यदि बिजली कनेक्शन किसी अन्य व्यक्ति के नाम से है तो कृपया संपर्क करें।
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* DOWNLOAD */
+
+function downloadFilteredData(){
+
+let data =
+currentDC==='dhamna'
+? dhamnaData
+: afjalpurData;
+
+const finalData = [];
+
+data.forEach(customer=>{
+
+const consumer =
+customer['Consumer No']
+||
+customer['Consumer Number']
+||
+'';
+
+const id =
+currentDC+'_'+consumer;
+
+const status =
+getStatus(id);
+
+if(
+currentFilter==='Interested'
+&&
+status!=='Interested'
+){
+return;
+}
+
+if(
+currentFilter==='Thinking'
+&&
+status!=='Thinking'
+){
+return;
+}
+
+let company =
+localStorage.getItem(
+'company_'+consumer
+)
+|| '';
+
+finalData.push({
+
+Name:
+customer['Consumer Name Hindi']
+||
+customer['Consumer Name']
+||
+'',
+
+Village:
+customer['Village']
+||
+customer['village']
+||
+'',
+
+Mobile:
+customer['Mobile No']
+||
+customer['Mobile Number']
+||
+'',
+
+ConsumerNo:
+consumer,
+
+Status:
+status,
+
+PreferredCompany:
+company
+
+});
+
+});
+
+if(finalData.length===0){
+
+alert('No Data Found');
+
+return;
+
+}
+
+const worksheet =
+XLSX.utils.json_to_sheet(
+finalData
+);
+
+const workbook =
+XLSX.utils.book_new();
+
+XLSX.utils.book_append_sheet(
+workbook,
+worksheet,
+currentFilter
+);
+
+XLSX.writeFile(
+workbook,
+`${currentDC}_${currentFilter}_Data.xlsx`
+);
+
+}
+
+/* CLEAR */
+
+function clearAllData(){
+
+if(confirm(
+'Delete All Data?'
+)){
+
+indexedDB.deleteDatabase(
+"YadavSolarCRM"
+);
+
+localStorage.clear();
+
+location.reload();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
